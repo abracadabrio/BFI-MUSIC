@@ -59,7 +59,7 @@ scene.get("wall_001").radio_material = "itu_metal"
 scene.get("windows").radio_material = "itu_metal"
 
 # Configure antenna array for all transmitters
-samples = 50
+samples = 2000
 count = 1
 subcarrier_spacing = 312.5e3
 fft_size = 48
@@ -74,7 +74,7 @@ if scene.synthetic_array == True:
     isSyn = 'Syn'
 else:
     isSyn = 'noSyn'
-save_directory = f'/root/sionna/dataset/training_dataset_{num_anttena_large}x8_{num_anttena_small}x8_{isSyn}_metal.mat'
+save_directory = f'/root/sionna/dataset/training_dataset_{num_anttena_large}x16_{num_anttena_small}x2_{isSyn}_metal.mat'
 h_matrices_high = []
 h_matrices_low = []
 aod_array = []
@@ -98,7 +98,7 @@ while count <= samples:
                                 polarization="V")
 
     # Configure antenna array for all receivers
-    scene.rx_array = PlanarArray(num_rows=4,
+    scene.rx_array = PlanarArray(num_rows=16,
                                 num_cols=1,
                                 vertical_spacing=0.5,
                                 horizontal_spacing=0.5,
@@ -149,7 +149,7 @@ while count <= samples:
                                 polarization="V")
 
         # Configure antenna array for all receivers
-        scene.rx_array = PlanarArray(num_rows=4,
+        scene.rx_array = PlanarArray(num_rows=2,
                                 num_cols=1,
                                 vertical_spacing=0.5,
                                 horizontal_spacing=0.5,
