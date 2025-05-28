@@ -75,13 +75,14 @@ if scene.synthetic_array == True:
 else:
     isSyn = 'noSyn'
 base_directory = '/home/LC/Sionna/BFI-MUSIC/dataset'
-save_filename = f'training_dataset_arb6x6_uni4x2_uni10x2_{isSyn}.mat'
+save_filename = f'training_dataset_arb6x6_uni4x2_uni10x2_{isSyn}_same_hight.mat'
 save_directory = os.path.join(base_directory, save_filename)
 temp_save_directory = os.path.join(base_directory, f'temp_{save_filename}')
 
 # 检查是否存在临时文件以恢复进度
 h_matrices_high = []
 h_matrices_low_uni = []
+
 h_matrices_low_arb = []
 aod_array = []
 start_count = 1
@@ -139,10 +140,10 @@ try:
     while count <= samples:
         # 设置坐标
         tx_x_cordinate = 2.98
-        tx_y_cordinate = 3
+        tx_y_cordinate = 1.1
         tx_z_cordinate = 0
         rx_x_cordinate = np.random.uniform(-3, 3)
-        rx_y_cordinate = np.random.uniform(0, 3.4)
+        rx_y_cordinate = 1.1
         rx_z_cordinate = np.random.uniform(-7, 7)
         rx_random_oriantation1 = np.random.uniform(-3.141592653589793, 3.141592653589793)
         rx_random_oriantation2 = np.random.uniform(-3.141592653589793, 3.141592653589793)
