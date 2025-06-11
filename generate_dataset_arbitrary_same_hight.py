@@ -65,7 +65,7 @@ fft_size = 52
 num_anttena_large = 10
 num_anttena_small = 4
 scene.bandwidth = 20e6  # 带宽 Hz
-scene.synthetic_array = True  # 如果设为 False，会对每个天线元素进行射线追踪（较慢）
+scene.synthetic_array = False  # 如果设为 False，会对每个天线元素进行射线追踪（较慢）
 frequencies = subcarrier_frequencies(fft_size, subcarrier_spacing)
 scene.frequency = 5.71e9  # 频率 Hz，隐式更新 RadioMaterials
 
@@ -75,7 +75,7 @@ if scene.synthetic_array == True:
 else:
     isSyn = 'noSyn'
 base_directory = '/home/LC/Sionna/BFI-MUSIC/dataset'
-save_filename = f'training_dataset_arb6x6_uni4x2_uni10x2_{isSyn}_same_hight.mat'
+save_filename = f'training_dataset_arb6x6x2_uni4x2_uni10x2_{isSyn}_samehight.mat'
 save_directory = os.path.join(base_directory, save_filename)
 temp_save_directory = os.path.join(base_directory, f'temp_{save_filename}')
 
@@ -138,13 +138,26 @@ time_start = time.time()
 # 生成数据集
 try:
     while count <= samples:
-        # 设置坐标
-        tx_x_cordinate = 2.98
-        tx_y_cordinate = 1.1
-        tx_z_cordinate = 0
-        rx_x_cordinate = np.random.uniform(-3, 3)
-        rx_y_cordinate = 1.1
-        rx_z_cordinate = np.random.uniform(-7, 7)
+        # 生成坐标并确保距离至少为1m
+        while True:
+            # 设置发射机坐标
+            tx_x_cordinate = np.random.uniform(-3, 3)
+            tx_y_cordinate = 1.1
+            tx_z_cordinate = np.random.uniform(-7, 7)
+            # 设置接收机坐标
+            rx_x_cordinate = np.random.uniform(-3, 3)
+            rx_y_cordinate = 1.1
+            rx_z_cordinate = np.random.uniform(-7, 7)
+            
+            # 计算发射机和接收机之间的距离
+            distance = np.sqrt((tx_x_cordinate - rx_x_cordinate)**2 + 
+                             (tx_y_cordinate - rx_y_cordinate)**2 + 
+                             (tx_z_cordinate - rx_z_cordinate)**2)
+            
+            # 如果距离至少为1米，则跳出循环
+            if distance > 1.0:
+                break
+        
         rx_random_oriantation1 = np.random.uniform(-3.141592653589793, 3.141592653589793)
         rx_random_oriantation2 = np.random.uniform(-3.141592653589793, 3.141592653589793)
         rx_random_oriantation3 = np.random.uniform(-3.141592653589793, 3.141592653589793)
